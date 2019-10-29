@@ -1,0 +1,85 @@
+
+  <view class="container">
+    
+
+  <view class="cu-bar bg-white solid-bottom" style="height:100rpx">
+    <view class="action">
+      <text class="cuIcon-friendfill text-blue"/>第六组
+    </view>
+    <view class="padding">
+      <view class="cu-avatar-group cu-bar-avatar-group">
+        <view class="cu-avatar round"  wx:for="{{8}}" wx:key="wx:key" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big1000{{index+1}}.jpg);"/>
+      </view>
+    </view>
+  </view>
+
+
+    
+  <scroll-view scroll-y="{{$TeamList$modalName == $TeamList$null}}" style="height:calc(100vh - 100rpx)">
+    <block wx:for="{{$TeamList$team}}" wx:for-index="$TeamList$index" wx:for-item="$TeamList$member" wx:key="$TeamList$index">
+      <view class="team-item bg-white margin-bottom-xs" bindtouchstart="$TeamList$itemTouchStart" bindtouchmove="$TeamList$itemTouchMove" bindtouchend="$TeamList$itemTouchEnd" data-target="item-{{$TeamList$index}}">
+        <view class="flex flex-wrap justify-between solid-bottom padding-xs align-center">
+          <view class="text-center" style="width:140rpx">
+            <view class="cu-avatar round margin-left {{$TeamList$member.role == 0?'captain':'lg'}}" style="background-image:url({{$TeamList$member.avatar}})">
+              <view class="{{$TeamList$member.sex != 0?'icon cu-tag badge':''}} {{$TeamList$member.sex == 2?'cuIcon-female bg-pink':''}} {{$TeamList$member.sex == 1?'cuIcon-male bg-blue':''}}"/>
+            </view>
+          </view>
+          <view class=" padding-lg basis-sub text-left">
+            <span>{{$TeamList$member.name}}</span>
+            <view class="flex flex-wrap text-sm">
+              <div class="member-dire text-cut ">
+                方向：{{$TeamList$member.dire}}
+              </div>
+            </view>
+          </view>
+          <view class="padding-xs basis-15">
+            <text  wx:if="{{$TeamList$member.role == 0}}">队长</text>
+            <text  wx:else>成员</text>
+          </view>
+          <view class="padding basis-15">
+            <view>
+              <span class="cuIcon-back lg text-gray" bindtap="$TeamList$showModal" data-target="item-{{$TeamList$index}}"/>
+            </view>
+          </view>
+        </view>
+    
+        <view class="flex flex-wrap team-item-modal drawer-modal justify-end {{$TeamList$modalName=='item-'+ $TeamList$index?'show':''}}" catchtap="$TeamList$hideModal">
+          <view class="cu-dialog basis-30" catchtouchend="$TeamList$" style="height:100%">
+            <button wx:if="{{!$TeamList$havaCaptain}}" class="cu-btn bg-blue" catchtap="$TeamList$">推为组长</button>
+            <button class="cu-btn bg-white" catchtap="$TeamList$showMemberDetail" data-wpyshowmemberdetail-a="{{$TeamList$index}}">详细信息</button>
+          </view>
+        </view>
+      </view>
+    </block>
+
+  </scroll-view>
+  <view class="cu-modal {{$TeamList$memberDetail != $TeamList$null ? 'show':''}}" catchtap="$TeamList$hideMemberDetail">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-between">
+          <view class="cu-avatar round margin-left xs" style="background-image:url({{$TeamList$memberDetail.avatar}})">
+          </view>
+        <view class="action" catchtap="$TeamList$hideMemberDetail">
+          <text class="cuIcon-close text-red"/>
+        </view>
+      </view>
+      <view class="padding-xl">
+        Modal 内容。
+      </view>
+    </view>
+  </view>
+  
+
+    <!--底部导航-->
+    
+  <view class="footer_bar">
+        <navigator  wx:for="{{$footer$barList}}" wx:key="index" url="{{item.url}}">
+            <view class="{{$footer$currentId==index ? 'active' : ''}}">
+                {{item.name}}
+            </view>
+            <!--<text class="cuIcon-{{item.icon}} lg text-gray {{currentId==index ? 'active' : ''}}">-->
+                <!--{{item.name}}-->
+            <!--</text>-->
+        </navigator>
+  </view>
+
+  </view>

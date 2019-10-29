@@ -1,0 +1,53 @@
+<style>
+  .cu-bar-avatar-group .cu-avatar:first-child{
+    margin-left:-30rpx;
+  }
+</style>
+<template>
+
+  <view class="cu-bar bg-white solid-bottom" style="height:100rpx">
+    <view class="action">
+      <text class="cuIcon-friendfill text-blue"></text>第六组
+    </view>
+    <view class="padding">
+      <view class="cu-avatar-group cu-bar-avatar-group">
+        <view class="cu-avatar round" wx:for="{{8}}" wx:key style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big1000{{index+1}}.jpg);"></view>
+      </view>
+    </view>
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.component {
+    components = {
+
+    }
+
+    props = {
+    }
+
+    data = {
+      avatar:"background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg);"
+    }
+
+    
+
+    computed = {
+
+    }
+
+    methods = {
+      
+    }
+
+    events = {
+     
+    }
+
+    onLoad() {
+    }
+  }
+</script>

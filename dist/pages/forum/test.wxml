@@ -1,0 +1,7 @@
+
+  <view class="loading"/>
+  <view class="container" bindtouchmove="moveFn" bindtouchstart="startFn" bindtouchend="endFn" style="transform:translate3d(0,{{childTop}}px,0)">
+    <block wx:for="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <view>{{ item }}<text>{{index}}</text></view>
+    </block>
+    </view>

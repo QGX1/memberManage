@@ -1,0 +1,95 @@
+<style lang="less">
+    .container {
+    background-color: #fff;
+    position: relative;
+    .list-item {
+      padding: 20rpx;
+      .author {
+        display: flex;
+        .loginname {
+          padding-left: 20rpx;
+          font-size: 24rpx;
+          line-height: 47rpx;
+        }
+        border-bottom: 2rpx solid #ccc;
+      }
+      .list-content {
+        font-size: 26rpx;
+        .create-at {
+          font-size: 20rpx;
+          color: #666;
+          padding-top: 20rpx;
+        }
+      }
+    }
+}
+</style>
+
+<template>
+    <view class="container">
+    <view wx:for="{{get_data}}" wx:key="{{index}}" class="list-item">
+      <navigator url="log?id={{item.id}}">
+        <view class="list-content">
+          <view class="title">{{item.title}}</view>
+          <view class="create-at">{{item.create_at}}</view>
+        </view>
+        <view class="author">
+          <view class="avatar">
+            <image src="{{item.author.avatar_url}}" style="width:30rpx;height: 30rpx;" mode="aspectFit"></image>
+          </view>
+          <text class="loginname">{{item.author.loginname}}</text>
+        </view>
+      </navigator>
+    </view>
+    </view>
+</template>
+
+
+<script>
+    import wepy from 'wepy'
+    export default class ForumList extends wepy.component{
+        data = {
+            get_data: [],
+            loadingFlag:true
+        }
+
+        onLoad() {
+        // console.log(this);
+        this.methods.get_in_theaters(this)
+        }
+        onPullDownRefresh(){
+            console.log('234');
+            this.methods.get_in_theaters(this)
+        }
+        methods = {
+        loading(that) {
+            if(that.loadingFlag){
+            wx.showLoading({
+                title:'loading'
+            })
+            }else{
+            wx.hideLoading()
+            }
+        },
+        get_in_theaters(that) {
+            this.loading(that)
+            wx.request({
+            url: 'https://cnodejs.org/api/v1/topics',
+            data: {
+                page: 1,
+                limit: 10
+            },
+            method: 'GET',
+            dataType: 'json',
+            success:  (res) =>{
+                console.log('pulling');
+                that.loadingFlag = false
+                this.loading(that)
+                that.get_data = res.data.data
+                that.$apply()
+            }
+            });
+        }
+        };
+    }
+</script>

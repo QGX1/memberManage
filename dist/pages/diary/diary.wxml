@@ -1,0 +1,18 @@
+
+    <view class="container">
+
+
+        <!--底部导航-->
+        
+  <view class="footer_bar">
+        <navigator  wx:for="{{$footer$barList}}" wx:key="index" url="{{item.url}}">
+            <view class="{{$footer$currentId==index ? 'active' : ''}}">
+                {{item.name}}
+            </view>
+            <!--<text class="cuIcon-{{item.icon}} lg text-gray {{currentId==index ? 'active' : ''}}">-->
+                <!--{{item.name}}-->
+            <!--</text>-->
+        </navigator>
+  </view>
+
+    </view>

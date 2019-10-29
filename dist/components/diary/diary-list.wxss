@@ -1,0 +1,8 @@
+
+  .diary.cu-card.article > .cu-item .title{
+    line-height:80rpx;
+  }
+  .diary.cu-card > .cu-item{
+    margin:25rpx 20rpx 0rpx 25rpx;
+    padding-bottom:20rpx;
+  }

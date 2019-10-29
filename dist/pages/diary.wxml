@@ -1,0 +1,68 @@
+
+  <view class="container">
+    <view class="diary-head {{showHead ? 'show':'hidden'}}">
+      
+  <view style="width:100%">
+    <view class="cu-bar bg-blue search">
+      <view class="action">
+        <picker mode="date" value="{{$DiaryHead$date}}" start="2015-09-01" end="2020-09-01" bindchange="$DiaryHead$DateChange">
+          <view class="picker">
+            <button class="cu-btn icon">
+              <text class="cuIcon-calendar"/>
+            </button>
+          </view>
+        </picker>
+        
+      </view>
+      <view class="search-form radius">
+        <text class="cuIcon-search"/>
+        <input type="text" placeholder="请输入用户名" confirm-type="search"/>
+      </view>
+      <view class="action">
+        <text>我的</text>
+      </view>
+    </view>
+    <view class="padding-xs flex justify-between align-center bg-white">
+      <view class="text-center">
+        <view class="text-sm padding-xs text-grey">
+          日期：{{$DiaryHead$date}}
+        </view>
+      </view>
+      <view class="text-center">
+        <view class="text-sm padding-xs text-grey">
+          用户：--
+        </view>
+      </view>
+    </view>
+  </view>
+
+    </view>
+    <scroll-view scroll-y style="height:100vh" bindscroll="onScroll">
+      
+  <view>
+    <view class="bg-white" style="height:172rpx;"/>
+    <block wx:for="{{8}}" wx:for-index="$DiaryList$index" wx:for-item="$DiaryList$diary" wx:key="$DiaryList$index">
+      <view class="cu-card article margin-bottom-xs diary">
+        <navigator open-type="navigate" url="./diary-detail" class="cu-item shadow">
+          <view class="title padding-xs">
+            <view class="text-cut">无意者 烈火焚身;以正义的烈火拔出黑暗。我有自己的正义，见证至高的烈火吧。</view>
+          </view>
+          <view class="content">
+            <view class="desc">
+              <view class="text-content solid-bottom"> 折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</view>
+              <view class="flex justify-between align-center padding-top-xs text-grey text-sm">
+                <view>
+                  <view class="cu-avatar sm round" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg);"/>
+                  <text class="padding-xs">凯尔</text>
+                </view>
+                <view>2019-8-17</view>
+              </view>
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </block>
+  </view>
+
+    </scroll-view>
+  </view>

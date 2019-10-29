@@ -1,0 +1,72 @@
+<style lang="less">
+ .text-green1{
+   color: brown;
+ };
+ .line{
+   border-bottom: 2rpx solid rgb(238,238,238)
+ }
+ .nav{
+    position:fixed;
+    top:0;
+    left:0;
+    display: block;
+    z-index:50;
+    height: 90rpx;
+  }
+</style>
+<template>
+  
+  <view class="nav">
+    <!-- 导航栏 -->
+    <scroll-view scroll-x class="bg-white nav line" scroll-with-animation scroll-left="{{scrollLeft}}">
+      <block wx:for="{{navD}}" wx:key>
+        <view class="cu-item {{index==TabCur?'text-green cur':''}}"   bindtap="tabSelect" data-id="{{index}}">
+        {{item.message}}</view>
+      </block>
+    </scroll-view>
+    </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  export default class Head extends wepy.component {
+    props = {
+      // 组件间的数据传递
+      num: {
+        type: [Number, String],
+        coerce: function (v) {
+          return +v
+        },
+        default: 50
+      },
+    }
+    data = {
+      navformIndex: 0,
+      TabCur: 0,
+      scrollLeft:0,
+      elementValue: 4,
+      navD:[
+        {id:0,message:"综合"},
+        {id:1,message:"前端"},
+        {id:2,message:"架构"},
+        {id:3,message:"数据库"},
+        {id:4,message:"移动开发"},
+        {id:5,message:"编程语言"},
+        {id:6,message:"运维"},
+        {id:7,message:"人工智能"}
+        ]
+    }
+
+    methods = {
+      //导航栏点击事件
+      tabSelect(e) {
+        // console.log(e)
+        this.TabCur= e.currentTarget.dataset.id,//获取点击的数组下标
+        // console.log("数据"+this.TabCur)
+        this.scrollLeft= (e.currentTarget.dataset.id-1)*60,
+        // console.log('选择分类'),向祖先传递数据
+        this.navformIndex = e.currentTarget.dataset.id
+        this.$emit('platformChoose',this.navD[this.navformIndex]);
+      }
+    }
+  }
+</script>

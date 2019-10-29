@@ -1,0 +1,72 @@
+<style>
+.container{
+  background-color:#eee;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+</style>
+<template>
+  <view class="container">
+    <TeamHead></TeamHead>
+    <TeamList :team.sync="formatTeam" :haveCaptain="haveCaptain"/>
+    <!--底部导航-->
+    <footer currentId="1"></footer>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import api from '@/api/api'
+  import TeamHead from '@/components/team/team-head'
+  import TeamList from '@/components/team/team-list'
+  import footer from '@/components/footer'
+  export default class team extends wepy.page {
+    config = {
+      navigationBarTitleText: '团队'
+    }
+    components = {
+      TeamHead:TeamHead,
+      TeamList:TeamList,
+      footer
+    }
+
+    mixins = []
+
+    data = {
+      team: [],
+      haveCaptain:true
+    }
+
+    computed = {
+      formatTeam () {
+        let haveCaptain = this.team.find(item => item.role === 0) !== null;
+        if(haveCaptain){
+          return this.team.sort((a,b) => a.role - b.role)
+        }else{
+          return this.team;
+        }
+      }
+    }
+// 数据请求
+    async getTeamByUserID() {
+      const json = await api.getTeamByUserID({
+        query: {}
+      });
+      this.team = json.data.data;
+      this.$apply();
+    }
+
+    methods = {
+
+    }
+
+    events = {
+      
+    }
+// 加载时进行数据请求
+    onLoad() {
+      this.getTeamByUserID();
+    }
+  }
+</script>

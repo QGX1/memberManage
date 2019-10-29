@@ -1,0 +1,233 @@
+<style lang="less">
+page{
+  background-color: #eeeeee;
+}
+   .looked{
+     margin-top: -70rpx;
+
+   }
+   .space1{
+      margin-top: -90rpx;
+      color: #241f1f;
+      position: relative;
+      margin-left: 110rpx;
+   }
+   .content{
+      color: #c0bfc0;
+      position: relative;
+      top: 100rpx;
+      margin-left: -40px;
+
+   }
+ .cont {
+    top: 110rpx;
+    position: relative;
+    margin-top: -40rpx;
+  }
+
+   .connect{
+     position: relative;
+     color: red;
+   }
+   .listcont{
+     border: 1rpx solid #ffffff;
+     height: 200rpx;
+   }
+   .weui-loadmore__tips{
+     top:100rpx;
+     position: relative;
+   }
+   .weui-loadmore{
+     margin-top:200rpx;
+   }
+   .username{
+     top: 20rpx;
+   }
+   .userAvatar{
+     margin-top: 20rpx;
+     }
+
+</style>
+
+<template>
+  <view>
+    <view class="cu-card dynamic cont" wx:for="{{get_data}}" wx:key="*this">
+      <view class="cu-item shadow listcont" bindtap="toDetail({{item}})">
+        <view class="cu-list menu-avatar" >
+          <view class="cu-item userAvatar">
+            <view class="cu-avatar round lg" style="background-image:url({{item.userList.useravatar}})"></view>
+            <view class="content flex-sub">
+              <view>
+                <view class="username">{{item.userList.username}}</view>
+                <view>{{item.postcreatetime}}</view>
+              </view>
+              <view class="text-gray text-sm text-right padding looked">
+                <text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+                <text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+                <text class="cuIcon-messagefill margin-lr-xs"></text> 30
+              </view>
+            </view>
+          
+          </view>
+        </view>
+          <view class="text-content space1">{{item.posttitle}}</view>
+        </view>
+    </view>
+    <!--上拉加载更多loading组件-->
+    <view class="weui-loadmore" hidden="{{isHideLoadMore}}">
+      <view class="weui-loading"></view>
+      <view class="weui-loadmore__tips">正在加载</view>
+    </view>
+    <!--上拉加载更多无数据提示-->
+    <view hidden="{{loadingMoreHidden ? true : false}}" class="no-more-photos">没有更多啦</view>
+  </view>
+
+</template>
+
+
+<script>
+    import wepy from 'wepy'
+    import api from '@/api/api'
+    export default class ForumList extends wepy.component{
+      config={
+        
+      }
+      data = {
+          get_data: [],//获取数据
+          loadingFlag:true,//加载
+          navtype:0,//选择分类
+          loadingMoreHidden:true,//加载更多标签
+          isHideLoadMore: false,
+          perPageSize: 20,//每一页的数据条数
+          pageCount: 59,
+      }
+      // 页面加载时监听
+      onLoad() {
+        // console.log(this);
+        // 在页面加载时调用方法加载数据
+        var curPage=0
+        this.methods.get_in_forum(this)//在不同的生命周期里通过this.其他生命周期.方法
+        console.log("页面监听数据")
+        console.log(this.get_data)
+      }
+      //下拉请求数据刷新
+      onPullDownRefresh(){
+        this.curPage=0;
+        this.methods.get_in_forum(this)
+      }
+      // 上拉加载更多
+      onReachBottom(){
+        console.log("加载更多")
+        if(!this.loadingMoreHidden){
+
+        }else{
+          this.methods.get_in_forum(this);//调用函数
+        }
+        this.loadingMoreHidden=true;//修改加载更多状态
+        this.$apply()
+      }
+      events = {
+        chooseShowPage (newValue) {
+              console.log("父组件传值"+newValue);
+              this.navtype=newValue;
+              this.$apply()
+
+            }
+        }
+
+      methods = {
+        loading(that) {
+          if(that.loadingFlag){
+            wx.showLoading({
+              title:'loading'
+          })
+          }else{
+            wx.hideLoading()//隐藏加载
+          }
+        },
+        toDetail(item){
+          console.log("进入详情页面")
+          console.log(item)
+          let postid=item.postid;
+          wepy.navigateTo({ url: './detail?postid='+postid });
+        },
+        // 数据请求
+        get_in_forum(that) {
+          // console.log("获取用户信息")
+          // console.log(that.$parent.$parent.globalData.userInfo.session_id);
+          let userId=that.$parent.$parent.globalData.userInfo.session_id
+          // var that=this;
+          this.loading(that)//数据请求时输出加载弹框,在同一个生命周期里通过this来调用函数
+          //  发起数据请求
+          wx.request({
+            // url:'https://cnodejs.org/api/v1/topics',
+            //  url: 'http://192.168.10.65:8080/post/selectPostAll' ,
+            url:'http://10.75.18.51:8080/post/selectPostAll',
+            data: {
+                openid:123,
+                page: 1,
+                size: 20,
+                categoryid:that.navtype
+            },
+            method: 'POST',
+            // method:"GET",
+            dataType: 'json',
+            header:{
+              // 设置请求头
+              "token":userId,
+              "content-type":"application/x-www-form-urlencoded"
+            },
+            success:  (res) =>{
+                console.log(res);
+                // wx.hideLoading()
+                // wepy.hideNavigationBarLoading();//隐藏加载动态动画
+                // that.loadingFlag = false
+                // that.perPageSize=res.data.data.data.size//当前页面的长度
+                // that.curPage=res.data.data.data.pageNum//修改当前页面进度
+                // that.pageCount=res.data.data.data.total//总共有多少条数据
+                // var forumTemp=that.get_data
+                 that.loadingFlag = false
+                this.loading(that)
+                that.get_data=res.data.data.data.list
+                console.log(that.get_data)
+                that.$apply()
+                //定义一个新的论坛数组对象，用于装载拼接所有的数据
+                // if(that.curPage==0){
+                //   forumTemp=[]
+                //   // 如果当前处于第一页，那么清空数组对象，只装载第一页的数据
+                // }
+
+                // var forumDataList=res.data.data.data.list
+                // if(forumDataList.length<that.perPageSize){
+                //   console.log("没有更多数据");
+                //   that.get_data=forumTemp.concat(forumDataList)
+                //   // contcat意思是向forumTemp数组中添加数据
+                //   that.loadingMoreHidden=false;
+                //   console.log(that.get_data)
+                // }else{
+                  // 如果，当前不是最后一页，向forumDataList添加数组
+                  // console.log("加载更多")
+                  // that.loadingMoreHidden=true,
+                  // that.get_data=forumDataList.concat(forumDataList);
+                  // that.get_data=
+              //     that.curPage=that.curPage+1;
+              //      console.log(that.get_data)
+              //   }
+              //   console.log("数据")
+              //  console.log(that.get_data)
+            }
+          });
+        }
+      }
+  // 监听数据变化
+  watch={
+     navtype (newValue, oldValue) {
+      console.log("事件监听")
+      console.log(`num value: ${oldValue} -> ${newValue}`)
+      this.navtype = newValue
+      this.$apply();
+      this.methods.get_in_forum(this)
+    }
+  }
+  }
+</script>

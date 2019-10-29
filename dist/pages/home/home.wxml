@@ -1,0 +1,36 @@
+
+    <view class="container">
+        <!--轮播图-->
+        <swiper class="swiper" indicator-active-color="{{indicatorActiveColor}}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="true">
+            <block  wx:for="{{adList}}" wx:key="index">
+                <swiper-item>
+                    <image class="silde-image" src="{{item.img}}"/>
+                </swiper-item>
+            </block>
+        </swiper>
+
+
+            <view class="cu-bar search bg-white">
+                <view class="search-form round">
+                    <text class="cuIcon-search"/>
+                    <input type="text" placeholder="搜索图片、文章、视频" confirm-type="search"/>
+                </view>
+                <view class="action">
+                    <button class="cu-btn bg-green shadow-blur round">搜索</button>
+                </view>
+            </view>
+
+        <!--底部导航-->
+        
+  <view class="footer_bar">
+        <navigator  wx:for="{{$footer$barList}}" wx:key="index" url="{{item.url}}">
+            <view class="{{$footer$currentId==index ? 'active' : ''}}">
+                {{item.name}}
+            </view>
+            <!--<text class="cuIcon-{{item.icon}} lg text-gray {{currentId==index ? 'active' : ''}}">-->
+                <!--{{item.name}}-->
+            <!--</text>-->
+        </navigator>
+  </view>
+
+    </view>

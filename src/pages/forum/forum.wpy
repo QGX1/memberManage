@@ -1,0 +1,101 @@
+<style lang="less">
+  .edit{
+    width: 100rpx;
+    height: 100rpx;
+    z-index: 3;
+    position: fixed;
+    right: 20rpx;
+    bottom: 160rpx;
+    border-radius: 50%;
+    border: 2rpx solid rgb(102,177,255);
+    margin-left:8rpx;
+    background-color: #ffffff;
+    box-shadow: #cccccc;
+  }
+  .editIcont{
+    width: 80rpx;
+    height: 80rpx;
+  }
+</style>
+<template>
+  <head></head>
+  <forumlist></forumlist>
+  <view class="edit" bindtap="toEdit">
+    <image src="../../img/iconfont/reply.png" mode="aspectfit" class="editIcont"></image>
+  </view>
+    <!--底部导航-->
+    <footer currentId="2"></footer>
+</template>
+
+<script>
+import wepy from "wepy";
+import testMixin from "../../mixins/test";
+import head from "@/components/forumCon/head";
+import forumList from "@/components/forumCon/forumList";
+import footer from '@/components/footer'
+import api from '@/api/api'
+export default class Forum extends wepy.page {
+  config = {
+    navigationBarTitleText: "论坛",
+    // 打开 下拉刷新
+    enablePullDownRefresh:true,
+    // 打开上拉加载更多
+    onReachBottomDistance:1
+  };
+  components = {
+    head: head,
+    forumlist: forumList,
+    footer
+  };
+
+  // mixins = [testMixin]
+
+  data = {
+    chooseShowPage:"",//默认开始选择展示页面为0
+    navform:""
+  };
+  methods = {
+    toEdit:function(){
+      wepy.navigateTo({ url: './edit' });
+    }
+  };
+  // 异步
+  async updateShowPage () {
+    try {
+      await new Promise(resolve => {
+        setTimeout(() => {
+          resolve('async await test...')    
+        }, 1000)
+      })
+      console.log("传值")
+      this.$broadcast('chooseShowPage', this.chooseShowPage)   //必须是异步执行广播事件，原理和小程序页面刷新和canvas重绘的先后机制有关，否则图表不显示
+      this.$apply()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  // events对象中所声明的函数为用于监听组件之间的通信与交互事件的事件处理函数
+  events = {
+    platformChoose(navform, event) {
+      console.log("此时子组件选择的平台是", navform);
+      this.navform = navform.id;
+      this.$apply();
+    }
+  };
+
+  onLoad() {
+    let self = this;
+  }
+
+    // 监听数据变化
+  watch={
+     navform (newValue, oldValue) {
+      console.log("事件监听")
+      console.log(`num value: ${oldValue} -> ${newValue}`)
+      this.chooseShowPage = newValue
+      this.$apply();
+      this.updateShowPage()
+    }
+  }
+}
+</script>

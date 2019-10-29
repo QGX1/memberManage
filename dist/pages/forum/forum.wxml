@@ -1,0 +1,62 @@
+
+  
+  
+  <view class="nav">
+    <!-- 导航栏 -->
+    <scroll-view scroll-x class="bg-white nav line" scroll-with-animation="scroll-with-animation" scroll-left="{{$head$scrollLeft}}">
+      <block  wx:for="{{$head$navD}}" wx:key="wx:key">
+        <view class="cu-item {{index==$head$TabCur?'text-green cur':''}}" bindtap="$head$tabSelect" data-id="{{index}}">
+        {{item.message}}</view>
+      </block>
+    </scroll-view>
+    </view>
+
+  
+  <view>
+    <view class="cu-card dynamic cont"  wx:for="{{$forumlist$get_data}}" wx:key="*this">
+      <view class="cu-item shadow listcont" bindtap="$forumlist$toDetail" data-wpytodetail-a="{{item}}">
+        <view class="cu-list menu-avatar">
+          <view class="cu-item userAvatar">
+            <view class="cu-avatar round lg" style="background-image:url({{item.userList.useravatar}})"/>
+            <view class="content flex-sub">
+              <view>
+                <view class="username">{{item.userList.username}}</view>
+                <view>{{item.postcreatetime}}</view>
+              </view>
+              <view class="text-gray text-sm text-right padding looked">
+                <text class="cuIcon-attentionfill margin-lr-xs"/> 10
+                <text class="cuIcon-appreciatefill margin-lr-xs"/> 20
+                <text class="cuIcon-messagefill margin-lr-xs"/> 30
+              </view>
+            </view>
+          
+          </view>
+        </view>
+          <view class="text-content space1">{{item.posttitle}}</view>
+        </view>
+    </view>
+    <!--上拉加载更多loading组件-->
+    <view class="weui-loadmore" hidden="{{$forumlist$isHideLoadMore}}">
+      <view class="weui-loading"/>
+      <view class="weui-loadmore__tips">正在加载</view>
+    </view>
+    <!--上拉加载更多无数据提示-->
+    <view hidden="{{$forumlist$loadingMoreHidden ? $forumlist$true : $forumlist$false}}" class="no-more-photos">没有更多啦</view>
+  </view>
+
+
+  <view class="edit" bindtap="toEdit">
+    <image src="../../img/iconfont/reply.png" mode="aspectfit" class="editIcont"/>
+  </view>
+    <!--底部导航-->
+    
+  <view class="footer_bar">
+        <navigator  wx:for="{{$footer$barList}}" wx:key="index" url="{{item.url}}">
+            <view class="{{$footer$currentId==index ? 'active' : ''}}">
+                {{item.name}}
+            </view>
+            <!--<text class="cuIcon-{{item.icon}} lg text-gray {{currentId==index ? 'active' : ''}}">-->
+                <!--{{item.name}}-->
+            <!--</text>-->
+        </navigator>
+  </view>

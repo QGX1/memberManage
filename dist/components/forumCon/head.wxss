@@ -1,0 +1,14 @@
+.text-green1 {
+  color: brown;
+}
+.line {
+  border-bottom: 2rpx solid #eeeeee;
+}
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: block;
+  z-index: 50;
+  height: 90rpx;
+}

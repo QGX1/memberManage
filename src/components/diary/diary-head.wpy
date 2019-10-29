@@ -1,0 +1,81 @@
+<style>
+  .cu-bar-avatar-group .cu-avatar:first-child{
+    margin-left:-30rpx;
+   
+  }
+</style>
+<template>
+  <view style="width:100%">
+    <view class="cu-bar bg-blue search">
+      <view class="action">
+        <picker mode="date" value="{{date}}" start="2015-09-01" end="2020-09-01" bindchange="DateChange">
+          <view class="picker">
+            <button class="cu-btn icon">
+              <text class="cuIcon-calendar"></text>
+            </button>
+          </view>
+        </picker>
+        
+      </view>
+      <view class="search-form radius">
+        <text class="cuIcon-search"></text>
+        <input type="text" placeholder="请输入用户名" confirm-type="search"></input>
+      </view>
+      <view class="action">
+        <text>我的</text>
+      </view>
+    </view>
+    <view class="padding-xs flex justify-between align-center bg-white">
+      <view class="text-center">
+        <view class="text-sm padding-xs text-grey">
+          日期：{{date}}
+        </view>
+      </view>
+      <view class="text-center">
+        <view class="text-sm padding-xs text-grey">
+          用户：--
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  const util= require('../../utils/util.js')
+
+
+  export default class DiaryHead extends wepy.component {
+    components = {
+
+    }
+
+    props = {
+    }
+
+    data = {
+      date:util.formatTime(new Date(),'Y-M-D')
+    }
+
+    
+
+    computed = {
+
+    }
+
+    methods = {
+      DateChange(e) {
+        this.date = e.detail.value
+        this.$emit('searchByDate',e.detail.value)
+      }
+    }
+
+    events = {
+     
+    }
+
+    onLoad() {
+    }
+  }
+</script>

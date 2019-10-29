@@ -1,0 +1,66 @@
+<template>
+  <view class="loading"></view>
+  <view class="container"  
+        @touchmove="moveFn" 
+        @touchstart="startFn" 
+        @touchend="endFn"
+        style="transform:translate3d(0,{{childTop}}px,0)">
+    <repeat for="{{list}}" 
+            key="index" 
+            index="index" 
+            item="item">
+        <view>{{ item }}<text>{{index}}</text></view>
+    </repeat>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Test extends wepy.page {
+    data = {
+  getData: '',
+  top: 0,
+  lastTop: 0,
+  canDrag: false,
+  list: []
+}
+onReachBottom() {
+ this.canDrag = true
+}
+methods = {
+  moveFn(ev) {
+    let nowY = ev.changedTouches[0].clientY
+    nowY = nowY-this.lastTop
+    if(nowY > 0 )
+      this.canDrag = false
+    if( nowY<=0 && this.canDrag ) {
+      this.top = nowY
+    }
+    if( -this.top>= this.maxTop  )
+      this.top = -this.maxTop
+
+},
+  startFn(ev) {
+    this.lastTop = ev.changedTouches[0].clientY 
+  },
+  endFn() {
+    if(this.top <= -this.maxTop) {
+      this.text = "去请求数据了"
+      setTimeout(()=>{
+        this.text = "请求回来了"
+        this.canDrag = false
+        this.list.push(...["数据","数据","数据"])
+        this.$apply()
+        this.top = 0;
+        return
+      },1000)
+    }
+  },
+  gotoTop() {
+    wepy.pageScrollTo({
+      scrollTop: 0
+    })
+  }
+}
+}
+</script>

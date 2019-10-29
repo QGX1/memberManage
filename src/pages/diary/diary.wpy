@@ -1,0 +1,50 @@
+<style lang="less">
+
+
+</style>
+<template>
+    <view class="container">
+
+
+        <!--底部导航-->
+        <footer currentId="0"></footer>
+    </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  // 前后端联调 api
+  import {getAdList} from '@/api/api'
+  import footer from '@/components/footer'
+
+  export default class Diary extends wepy.page {
+    config = {
+      navigationBarTitleText: '日记',
+      navigationBarBackgroundColor: '#66B1FF',
+      navigationBarTextStyle: 'black',
+      backgroundColor: '#eeeeee',
+      backgroundTextStyle: 'light'
+    }
+
+    data = {
+      indicatorActiveColor: '#fff',
+      indicatorDots: true,
+      autoplay: true,
+      interval: 3000,
+      duration: 1000,
+      adList: []
+    }
+    async loadAdList() {
+      this.adList = await getAdList()
+      this.$apply()
+      console.log(this.adList)
+    }onLoad() {
+      this.loadAdList()
+    }
+    components = {
+      // head: head,
+      // forumlist: forumList,
+      footer: footer
+    }
+  }
+</script>

@@ -1,0 +1,74 @@
+@import "./../../components/footer.wxss";
+.persional {
+  width: 100%;
+  height: 300rpx;
+  background-color: #66B0FE;
+  position: relative;
+}
+.avatarUrl {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: #ddd;
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.username {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+}
+.main_content {
+  height: 200rpx;
+  width: 100%;
+  background-color: #F5F5F5;
+  position: relative;
+}
+.content-list {
+  position: absolute;
+  background-color: #fff;
+  width: 90%;
+  height: 160rpx;
+  line-height: 120rpx;
+  text-align: center;
+  display: flex;
+  border-radius: 30rpx;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.content-list span {
+  flex: 1;
+  position: relative;
+}
+.content-list .text-gray {
+  color: #A5B2FF;
+  font-size: 46rpx;
+}
+.content-list .text {
+  position: absolute;
+  bottom: -16rpx;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.item-list {
+  width: 100%;
+  height: 150rpx;
+  line-height: 150rpx;
+  padding: 10rpx;
+  border-bottom: 2rpx solid #eee;
+}
+.item-list .text-orange {
+  margin: 0 20rpx;
+}
+.item-list .right {
+  position: absolute;
+  right: 40rpx;
+}
+.item-list .content {
+  font-size: 24rpx;
+}

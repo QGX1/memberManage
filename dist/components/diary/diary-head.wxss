@@ -1,0 +1,5 @@
+
+  .cu-bar-avatar-group .cu-avatar:first-child{
+    margin-left:-30rpx;
+   
+  }

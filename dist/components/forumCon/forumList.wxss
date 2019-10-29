@@ -1,0 +1,44 @@
+page {
+  background-color: #eeeeee;
+}
+.looked {
+  margin-top: -70rpx;
+}
+.space1 {
+  margin-top: -90rpx;
+  color: #241f1f;
+  position: relative;
+  margin-left: 110rpx;
+}
+.content {
+  color: #c0bfc0;
+  position: relative;
+  top: 100rpx;
+  margin-left: -40px;
+}
+.cont {
+  top: 110rpx;
+  position: relative;
+  margin-top: -40rpx;
+}
+.connect {
+  position: relative;
+  color: red;
+}
+.listcont {
+  border: 1rpx solid #ffffff;
+  height: 200rpx;
+}
+.weui-loadmore__tips {
+  top: 100rpx;
+  position: relative;
+}
+.weui-loadmore {
+  margin-top: 200rpx;
+}
+.username {
+  top: 20rpx;
+}
+.userAvatar {
+  margin-top: 20rpx;
+}

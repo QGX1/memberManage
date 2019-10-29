@@ -1,0 +1,70 @@
+
+<template>
+  <view class='footer_bar'>
+        <navigator wx:for="{{barList}}" wx:key="index" url='{{item.url}}'>
+            <view class="{{currentId==index ? 'active' : ''}}">
+                {{item.name}}
+            </view>
+            <!--<text class="cuIcon-{{item.icon}} lg text-gray {{currentId==index ? 'active' : ''}}">-->
+                <!--{{item.name}}-->
+            <!--</text>-->
+        </navigator>
+  </view>
+</template>
+<script>
+    import wepy from 'wepy'
+    export default class Footer extends wepy.component {
+      props = {
+        currentId: {
+          default: 0
+        }
+      }
+      data = {
+        barList: [
+        {
+          name: '日记',
+          url: '/pages/diary/diary'
+        },
+        {
+          name: '小组',
+          url: '/pages/team'
+        },
+        {
+          name: '论坛',
+          url: '/pages/forum/forum'
+        },
+        {
+          name: '我的',
+          url: '/pages/member/member'
+        }
+        ]
+      }
+      methods = {
+      }
+    }
+</script>
+<style lang='less'>
+    .footer_bar{
+        position: fixed;
+        bottom: 0%;
+        display: flex;
+        z-index: 999;
+        left: 0;
+        width: 100%;
+        height: 100rpx;
+        line-height: 100rpx;
+        text-align: center;
+        border-top: 1rpx solid #ccc;
+        background-color: #fff;
+        navigator{
+            display: inline-block;
+            flex:1;
+            color:#bbb;
+        }
+        .active{
+            font-weight: 700;
+            color: #42A4FF;
+        }
+    }
+
+</style>

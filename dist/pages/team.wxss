@@ -1,0 +1,10 @@
+@import "./../components/footer.wxss";
+@import "./../components/team/team-list.wxss";
+@import "./../components/team/team-head.wxss";
+
+.container{
+  background-color:#eee;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}

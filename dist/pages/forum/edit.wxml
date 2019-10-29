@@ -1,0 +1,56 @@
+
+    
+  <view class="editorC">
+    <view class="cu-form-group spanTitle solid-bottom">
+      <view class="title">标题</view>
+      <input placeholder="输入标题" name="title" value="{{$editor$title}}" bindinput="$editor$getTitle"/>
+    </view>
+    <view class="editor-wrapper" style="min-height: {{$editor$windowHeight}}px" scroll-y enable-back-to-top="enable-back-to-top">
+      <block  wx:for="{{$editor$nodeList}}" wx:for-item="node" wx:for-index="index" wx:key="{{index}}">
+        <view class="editor-node-wrapper">
+          <!-- 多行文本框 -->
+          <block wx:if="{{node.name === 'p'}}">
+            <textarea class="editor-textarea" value="{{node.children[0].text}}" auto-height maxlength="-1" data-index="{{index}}" bindinput="$editor$onTextareaInput">
+            </textarea>
+          </block>
+          <!-- 图片区块 -->
+          <block wx:if="{{node.name === 'img'}}">
+            <!-- <image class="editor-image" src="{{node.attrs.src}}" style="height: {{node.attrs._height * 700}}rpx"></image> -->
+            <view class="cu-form-group">
+              <view class="grid grid-square flex-sub">
+                <view class="bg-img editor-image">
+                  <image src="{{node.attrs.src}}" mode="aspectFit"/>
+                </view>
+              </view>
+            </view>
+          </block>
+          <!-- 删除标志 -->
+            <view class="editor-delete iconfont icon-close " data-index="{{index}}" bindtap="$editor$deleteNode"/>
+          </view>
+      </block>
+    </view>
+    <view class="cu-bar tabbar bg-white foot flex flex-warp justify-around align-center">
+      <view class="editor-add-wrapper basis-xs">
+        <!-- 两个点击按钮的图标 -->
+        <view class="editor-add iconfont icon-align-left" data-index="-1" bindtap="$editor$addText"/>
+        <view class="editor-add iconfont icon-image" data-index="-1" bindtap="$editor$addImage"/>
+      </view>
+      <view class="com-selectBox basis-lg">
+          <view class="com-sContent" bindtap="$editor$selectToggle">
+              <view class="com-sTxt">{{$editor$nowText}}</view>
+              <!-- <view class="cuIcon-fold  com-sImg " animation="{{animationData}}"></view> -->
+               <image src="../../img/iconfont/dir.png" class="com-sImg" animation="{{$editor$animationData}}"/>
+          </view>
+          <view class="com-sList"  wx:if="{{$editor$selectShow}}">
+              <view wx:for="{{$editor$selectArray}}" data-index="{{index}}" wx:key="" class="com-sItem" bindtap="$editor$setText">{{item.text}}</view>
+          </view>
+      </view>
+      <!-- 点击发送 -->
+      <view class="basis-xs" bindtap="$editor$onFinish">
+          <button class="cu-btn round bg-blue button-hover">发布</button>
+      </view>  
+    </view>
+  </view>
+  
+
+  <!-- 中间的为父组件传递值给子组件 -->

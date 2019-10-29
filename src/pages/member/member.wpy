@@ -1,0 +1,161 @@
+<style lang="less">
+    .persional{
+        width: 100%;
+        height: 300rpx;
+        background-color: #66B0FE;
+        position: relative;
+    }
+    .avatarUrl {
+        width: 120rpx;
+        height: 120rpx;
+        border-radius: 50%;
+        background-color: #ddd;
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .username{
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+    }
+    .main_content{
+        height: 200rpx;
+        width: 100%;
+        background-color: #F5F5F5;
+        position: relative;
+    }
+    .content-list{
+        position: absolute;
+        background-color: #fff;
+        width: 90%;
+        height: 160rpx;
+        line-height: 120rpx;
+        text-align: center;
+        display: flex;
+        border-radius: 30rpx;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        span{
+            flex: 1;
+            position: relative;
+        }
+        .text-gray{
+            color: #A5B2FF;
+            font-size: 46rpx;
+        }
+        .text{
+            position: absolute;
+            bottom: -16rpx;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+    .item-list{
+        width: 100%;
+        height: 150rpx;
+        line-height: 150rpx;
+        padding: 10rpx;
+        border-bottom: 2rpx solid #eee;
+        .text-orange{
+            margin: 0 20rpx;
+        }
+        .right{
+            position: absolute;
+            right: 40rpx;
+        }
+        .content{
+            font-size: 24rpx;
+        }
+    }
+
+
+</style>
+<template>
+    <view class="container">
+        <view class="persional">
+            <image class="avatarUrl" src="{{avatarUrl}}"></image>
+            <view class="username">{{nickName}}</view>
+        </view>
+
+        <view class="main_content">
+            <view class="content-list">
+                <span>
+                    <text class="cuIcon-edit lg text-gray"></text>
+                    <text class="text">我的日记</text>
+                </span>
+                <span>
+                    <text class="cuIcon-friend lg text-gray"></text>
+                    <text class="text">我的小组</text>
+                </span>
+                <span>
+                    <text class="cuIcon-comment lg text-gray"></text>
+                    <text class="text">我的论坛</text>
+                </span>
+            </view>
+        </view>
+
+        <view class="item-list">
+        <navigator class="content" hover-class="none" url="../list/list" open-type="redirect">
+            <text class="cuIcon-discoverfill text-orange"></text>
+            <text class="text-grey">我的收藏</text>
+            <text class="cuIcon-right lg text-gray right"></text>
+        </navigator>
+        </view>
+        <view class="item-list">
+            <navigator class="content" hover-class="none" url="../list/list" open-type="redirect">
+                <text class="cuIcon-settingsfill text-orange"></text>
+                <text class="text-grey">个人设置</text>
+                <text class="cuIcon-right lg text-gray right"></text>
+            </navigator>
+        </view>
+        <view class="item-list">
+            <navigator class="content" hover-class="none" url="../list/list" open-type="redirect">
+                <text class="cuIcon-tagfill text-orange"></text>
+                <text class="text-grey">意见反馈</text>
+                <text class="cuIcon-right lg text-gray right"></text>
+            </navigator>
+        </view>
+
+
+        <!--底部导航-->
+        <footer currentId="3"></footer>
+
+    </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  // 前后端联调 api
+  import footer from '@/components/footer'
+
+  export default class Nember extends wepy.page {
+    config = {
+      navigationBarTitleText: '个人中心',
+      navigationBarBackgroundColor: '#66B1FF',
+      navigationBarTextStyle: 'black',
+      backgroundColor: '#eeeeee',
+      backgroundTextStyle: 'light'
+    }
+
+    data = {
+      avatarUrl: '',
+      nickName: ''
+    }
+    components = {
+      // head: head,
+      // forumlist: forumList,
+      footer: footer
+    }
+    onLoad() {
+      let that = this
+      let userInfo = wepy.getStorageSync('userinfo')
+      that.avatarUrl = userInfo.avatarUrl
+      that.nickName = userInfo.nickName
+    }
+  }
+</script>

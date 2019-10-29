@@ -1,0 +1,79 @@
+<style>
+.container{
+  background-color:#eee;
+  overflow: hidden;
+  width: 100vw;
+  /*height: 100vh;*/
+}
+.diary-head{
+  position:fixed;
+  width:100%;
+  top:0;
+  z-index:1024;
+  height: 172rpx;
+  transition-duration:0.5s;
+}
+.diary-head.show{
+  transform:translateY(0%);
+  
+}
+.diary-head.hidden{
+  transform:translateY(-100%);
+}
+</style>
+<template>
+  <view class="container">
+    <view class="diary-head {{showHead ? 'show':'hidden'}}">
+      <DiaryHead />
+    </view>
+    <scroll-view scroll-y style="height:100vh" @scroll="onScroll">
+      <DiaryList />
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import DiaryHead from '@/components/diary/diary-head'
+  import DiaryList from '@/components/diary/diary-list'
+
+  export default class Diary extends wepy.page {
+    config = {
+      navigationBarTitleText: '日记'
+    }
+    components = {
+      DiaryHead,
+      DiaryList
+    }
+
+    mixins = []
+
+    data = {
+      showHead:true
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      onScroll (e) {
+
+        this.showHead = e.detail.deltaY > 0 || e.detail.scrollTop <= 0;
+      }
+    }
+
+    events = {
+      searchByDate(date){
+        console.log(date);
+      },
+      searchByUser(user){
+        console.log(user);
+      }
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>

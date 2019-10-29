@@ -1,0 +1,117 @@
+<style lang="less">
+    page {
+        height: 100%;
+    }
+
+    .authorize-contianer {
+        height: 100%;
+        background: #fff;
+        text-align: center;
+        padding-top: 100rpx;
+        .authorize-icon {
+            width: 368rpx;
+            height: 200rpx;
+            display: block;
+            margin: 20rpx auto;
+            padding-bottom: 10rpx;
+        }
+        .auth-item {
+            padding: 5rpx 0;
+        }
+        .btn-authorize {
+            margin: 100rpx 50rpx;
+            button{
+                background-color: #66b0fe;
+            }
+        }
+    }
+</style>
+<template>
+    <view class="authorize-contianer">
+        <image class="authorize-icon" src="/img/logo.png"></image>
+        <view class="auth-item">数管中心申请获取以下权限：</view>
+        <view class="auth-item">获取你的公开信息（头像、昵称等）</view>
+        <view class="btn-authorize">
+            <button open-type="getUserInfo" type="primary" lang="zh_CN" bindgetuserinfo="bindGetUserInfo">授权</button>
+        </view>
+    </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  // 前后端联调 api
+
+  export default class Forum extends wepy.page {
+    config = {
+      navigationBarTitleText: '授权登录'
+    }
+    onload() {
+
+    }
+    bindGetUserInfo(res) {
+      let that=this;
+      let info = res
+      console.log(info)
+      if (info.detail.userInfo) {
+        console.log('点击了同意授权')
+        //开启loading框
+        wx.showLoading({
+          title: '正在登录...',
+          mask: true
+        });
+        wx.login({
+          success: function (res) {
+            if (res.code) {
+              var userinfo = {}
+              // userinfo['nickName'] = info.detail.userInfo.nickName
+              // userinfo['avatarUrl'] = info.detail.userInfo.avatarUrl
+              wx.setStorageSync('userinfo', userinfo)
+              wx.request({
+                url: 'http://10.75.18.51:8080/user/login',
+                data: {
+                  code: res.code,
+                  avatarUrl: info.detail.userInfo.avatarUrl
+                },
+                method:'POST' ,
+                header: {
+                  'content-type': 'application/x-www-form-urlencoded' // 默认值
+                },
+                success: function (res) {
+                  console.log(res);
+                  var userinfo = {}
+                  userinfo['id'] = res.data.id
+                  userinfo['nickName'] = info.detail.userInfo.nickName
+                  userinfo['avatarUrl'] = info.detail.userInfo.avatarUrl
+                  userinfo['session_id'] = res.data.data.session_id
+                  userinfo['openid'] = res.data.data.openid
+                   //1.存用户信息到本地存储
+                  wx.setStorageSync('userinfo', userinfo)
+                  //2.存用户信息到全局变量
+                  // console.log(that.$parent);
+                  that.$parent.globalData.userInfo =userinfo;
+                  //隐藏loading框
+                  wx.hideLoading();
+                  wepy.navigateTo({
+                    url: '/pages/forum/forum'
+                  })
+                }
+              })
+            } else {
+              console.log('授权失败')
+              wx.showToast({
+                    title: '登录失败',
+                    icon: 'none'
+                  })
+            }
+          }
+        })
+      } else {
+        console.log('点击了拒绝授权')
+        wx.showToast({
+                    title: '登录失败',
+                    icon: 'none'
+                })
+      }
+    }
+  }
+</script>
