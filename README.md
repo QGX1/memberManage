@@ -4,3 +4,5 @@
 ### npm install 下载依赖
 
 #### npm run dev 运行
+#### 运行效果
+![image](src/img/效果图/p1.jpg)
